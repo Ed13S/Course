@@ -25,9 +25,6 @@ A personal plan file (for example `eddie-plan.json`) is **not** part of this fol
 
 Do not put a student's name, results or API key in the repository. It is public.
 
-[![Course](https://shields.io)]([https://your-link-here.com](https://ed13s.github.io/Course/))
-
-
 ## 2. Using the course
 
 - **Lessons** are in the left column, grouped into modules. Each lesson is a series of steps, simple first and then deeper (Level 1 foundation, Level 2 core, Level 3 stretch). Common mistakes appear inside the steps.
