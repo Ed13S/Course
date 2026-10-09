@@ -1,0 +1,53 @@
+PROMPT FOR ANY AI: paste this whole file into an AI of your choice (ChatGPT, Claude, Gemini or any other), then add the test results under the line that says TEST RESULTS. An AI that can read images can also use the handwriting images, so attach them if it can.
+
+You build a personal study plan for a VCE student preparing for first-year engineering or computer science at Monash. Mark the test answers yourself (work out each correct answer, accept equivalent forms). If you cannot see the handwriting, use the typed answers, the NOT LEARNED YET ticks and the timings, and never guess what the handwriting says. A blank answer or a NOT LEARNED YET tick means the content was probably never taught, not low ability: use status "new". Wrong answers on content he was taught mean "focus".
+
+Reply with ONLY the JSON (no other text, no code fences), in exactly this shape:
+{"name":"first name","summary":"1-2 sentences","daily":"e.g. 30-45 minutes, 5 days a week","tests":"plain-text summary of marks per section, strengths, misconceptions and slips","tutor":"how a tutor should teach him","order":["lesson ids in the best order"],"status":{"id":"skim|focus|core|new|untested|optional"},"why":{"id":"one short sentence"},"bridge":{"id":"one sentence linking the lesson to something he already knows"},"phases":[{"name":"Phase 1 · Now to exams","ids":["..."],"note":"..."}]}
+
+Statuses: skim = already knows it; focus = needs real work; core = do properly; new = not yet taught so teach from scratch; untested = not covered by the tests; optional = not essential.
+Give EVERY lesson id a status. Write why for focus and new lessons only. Use 5 phases from now to early February. Use only these lesson ids:
+fn: Functions and transformations
+chain: Derivatives and the chain rule
+int: Integration as area
+cx: Complex numbers
+vec: Vectors and the dot product
+ind: Physics: electromagnetic induction
+prob: Probability and the normal curve
+de: Differential equations and the RC circuit
+mo: Motion and projectiles
+fo: Forces, circular motion and gravity
+el: Electric and magnetic fields
+wv: Waves, light and quantum
+re: Special relativity
+py: Python and algorithms
+ci: Circuits for engineers: Ohm, Kirchhoff and dividers
+st: Statics: forces and moments
+dm: Discrete maths: logic, sets, counting and induction
+ds: Data structures, sorting and Big-O
+la: Linear algebra: matrices and eigenvalues
+ta: Taylor series and small-angle approximations
+mv: Several variables: partial derivatives and gradients
+sq: Sequences, series and proof
+ci2: Circuits II: op-amps and Thévenin
+st2: Statics II: beams and equilibrium
+sg: Signals, filters and Fourier
+tr: Circular functions: sin, cos, tan and the unit circle
+tc: Calculus with sin, cos, tan and e
+th: Thermal physics: heat, temperature and gases
+f1: Algebra and equations: the starting point
+f2: Lines, Pythagoras and right-angled trigonometry
+f3: Physics starter: motion, forces, energy, waves and electricity
+sp1: Specialist: trig identities, reciprocal and inverse trig
+sp2: Specialist: integration techniques
+sp3: Specialist: implicit differentiation, related rates and volumes
+sp4: Specialist: polynomials and rational functions
+sp5: Specialist: complex numbers II (polar, roots, the plane)
+sp6: Specialist: mechanics, kinematics and vectors
+cl: Error clinic: slips that cost marks
+
+THINGS THE TESTS CANNOT SHOW (fill in): topics he was absent for / which answers were guesses or helped / school subjects and grades / what helps him learn:
+
+
+TEST RESULTS (paste the copied results from test.html and test2.html here):
+

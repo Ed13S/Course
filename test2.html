@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Starting Point Test: Part 2</title>
+<style>
+:root{color-scheme:light;--b:#2563eb;--bd:#d1d5db;--mut:#6b7280}*{box-sizing:border-box}
+body{margin:0;font:17px/1.6 system-ui,"DejaVu Sans",sans-serif;background:#f3f4f6;color:#111827}
+header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 16px;background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
+main{max-width:980px;margin:0 auto;padding:16px}
+button,select,input[type=text]{font:inherit;border:1px solid var(--bd);background:#fff;border-radius:10px;padding:8px 14px;cursor:pointer}
+button.pri{background:var(--b);color:#fff;border-color:var(--b)}button.on{outline:3px solid var(--b)}
+.card{background:#fff;border:1px solid var(--bd);border-radius:14px;padding:16px 20px;margin:12px 0}
+.qt{font-size:21px;line-height:1.5}.meta{color:var(--mut);font-size:14px}.ban{background:#eff6ff;border-left:4px solid var(--b);padding:8px 12px;border-radius:8px;margin-bottom:8px}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.sw{width:34px;height:34px;border-radius:50%;padding:0;border:3px solid #fff;box-shadow:0 0 0 1px var(--bd)}.sw.on{box-shadow:0 0 0 3px var(--b)}
+#cv{width:100%;height:auto;background-color:#fff;border:2px solid var(--bd);border-radius:12px;touch-action:none;display:block;cursor:crosshair}
+#cv.grid{background-image:linear-gradient(#e5e7eb 1px,transparent 1px),linear-gradient(90deg,#e5e7eb 1px,transparent 1px);background-size:30px 30px}
+.ans{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:12px 0}.ans input[type=text]{width:min(420px,100%)}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:14px 0 40px}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
+.pg button{padding:8px 4px}.pg .d{background:#dcfce7}.pg .n{background:#fef3c7}
+dialog{border:1px solid var(--bd);border-radius:14px;max-width:760px;width:94%}small{color:var(--mut)}
+textarea{width:100%;font:inherit;border:1px solid var(--bd);border-radius:10px;padding:8px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:6px;text-align:left}
+</style></head><body>
+<div id="app"></div>
+<script>
+const SEC=[
+{c:'G',n:'Physics basics (Units 1/2 level)',m:'About 20 min · calculator allowed · g = 9.8 m/s² · tick Not learned yet for anything you were away for',q:[['G1',1,'A runner covers 150 m in 12 s. Find the average speed.'],['G2',1,'A 4.0 kg trolley accelerates at 3.0 m/s². Find the net force.'],['G3',1,'Find the weight of a 6.0 kg bag (weight = mg).'],['G4',2,'Find the kinetic energy of a 2.0 kg ball moving at 5.0 m/s.'],['G5',1,'A 12 V battery drives current through a 4.0 Ω resistor. Find the current.'],['G6',1,'A wave has frequency 50 Hz and wavelength 0.40 m. Find its speed.'],['G7',2,'A 3.0 kg object is lifted 2.0 m. Find the gain in gravitational potential energy.'],['G8',1,'Find the momentum of a 1500 kg car moving at 20 m/s.'],['G9',2,'State Newton’s third law and give one example.'],['G10',2,'A 10 W globe runs for 60 s. How much energy does it use?']]},
+{c:'H',n:'Physics 3&4 topics',m:'About 30 min · calculator allowed · c = 3.0×10⁸ m/s · h = 6.63×10⁻³⁴ J s · tick Not learned yet freely',q:[['H1',2,'A ball is kicked horizontally at 10 m/s off a 20 m cliff. How long is it in the air? (g = 9.8)'],['H2',2,'A car travels at 15 m/s round a bend of radius 50 m. Find its centripetal acceleration.'],['H3',2,'Explain why astronauts in orbit feel weightless.'],['H4',2,'A proton is released between two plates (top +, bottom −). Which way does it accelerate and why?'],['H5',2,'State the right-hand rule for the force on a current-carrying wire in a magnetic field.'],['H6',3,'Explain Faraday’s law and Lenz’s law in your own words.'],['H7',2,'A transformer has 200 primary turns, 50 secondary turns and a 240 V input. Find the output voltage.'],['H8',3,'Light of energy 4.0 eV hits a metal with work function 2.5 eV. Find the maximum kinetic energy of the electrons.'],['H9',2,'What does time dilation mean? Which observer measures the proper time?'],['H10',2,'In the double-slit experiment, why do bright and dark fringes form?']]},
+{c:'I',n:'Specialist bridging topics',m:'About 35 min · no calculator · fine to say Not learned yet',q:[['I1',2,'Write sin 2x and cos 2x using double-angle identities.'],['I2',2,'Find arcsin(½) and state the range of arcsin.'],['I3',3,'Find ∫ x eˣ dx (integration by parts).'],['I4',3,'Write 1/((x − 1)(x + 2)) in partial fractions.'],['I5',3,'Find dy/dx for x² + y² = 25.'],['I6',2,'Write 1 + i in polar form (modulus and argument).'],['I7',2,'Write the vector equation of the line through (1, 2, 3) with direction (2, −1, 4).'],['I8',3,'Solve dy/dx = 2y given y = 3 when x = 0.'],['I9',2,'Find the cross product i × j and say what it represents.'],['I10',2,'Describe the two steps of proof by induction.']]},
+{c:'J',n:'Programming and discrete maths',m:'About 25 min · no calculator · you can write code on paper',q:[['J1',2,'What does this Python print?  for i in range(3): print(i * 2)'],['J2',2,'Write a Python function square(n) that returns n squared.'],['J3',1,'Convert binary 1101 to decimal.'],['J4',1,'Convert decimal 45 to binary.'],['J5',2,'Complete a truth table for A AND (NOT B).'],['J6',2,'What is the Big-O of two nested loops that each run n times?'],['J7',1,'Which is last in, first out: a stack or a queue?'],['J8',2,'If A = {1, 2, 3, 4} and B = {3, 4, 5}, find A ∩ B and A ∪ B.'],['J9',1,'Convert hexadecimal 2F to decimal.'],['J10',2,'What is the difference between a list and a dictionary in Python?']]},
+{c:'K',n:'Circuits and statics',m:'About 25 min · calculator allowed',q:[['K1',1,'Two resistors of 100 Ω and 220 Ω are in series. Find the total resistance.'],['K2',2,'Resistors of 6 Ω and 3 Ω are in parallel. Find the total resistance.'],['K3',2,'A 9 V supply feeds 1 kΩ in series with 2 kΩ. Find the voltage across the 2 kΩ resistor.'],['K4',2,'An RC circuit has R = 10 kΩ and C = 100 µF. Find the time constant.'],['K5',2,'A 20 N force acts 0.5 m from a pivot at right angles. Find the moment (torque).'],['K6',3,'A 4 m uniform beam of weight 100 N rests on two supports at its ends. Find each support force.'],['K7',2,'State Kirchhoff’s current law.'],['K8',2,'The peak of an AC voltage is 325 V. Find the RMS value.']]},
+{c:'L',n:'Linear algebra and sequences',m:'About 20 min · no calculator',q:[['L1',2,'Multiply [[1, 2],[3, 4]] by the column vector (5, 6).'],['L2',1,'Find the determinant of [[3, 1],[2, 4]].'],['L3',2,'Find the inverse of [[2, 1],[1, 1]].'],['L4',2,'Find the sum to infinity of 1 + ½ + ¼ + …'],['L5',2,'Evaluate Σ from k = 1 to 4 of (2k + 1).'],['L6',2,'Find the eigenvalues of [[3, 0],[0, 5]].'],['L7',2,'The 5th term of an arithmetic sequence is 17 and the common difference is 3. Find the first term.']]}];
+const Q=[];SEC.forEach(s=>s.q.forEach(([c,m,t])=>Q.push({c,m,t,s})));
+const SIT={G1:'Sitting 1 of 3: physics',I1:'Sitting 2 of 3: take a break first. Maths bridging',J1:'Sitting 3 of 3: computing, circuits and linear algebra'};
+const K='mpt2',$=s=>document.querySelector(s),esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const D=Object.assign({a:{},nl:{},st:{},tm:{},hh:{},conf:{},cur:0,name:'',hard:'',help:'',started:0,ks:{},an:null},JSON.parse(localStorage.getItem(K)||'{}'));
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(D))}catch(e){alert('Could not save in this browser. Please use Download backup on the last page.')}};
+let col='#111827',size=3,er=0,pen=0,grid=0,cur=null,t0=Date.now(),last=null;
+const H=c=>D.hh[c]||360;
+function leave(){const c=Q[D.cur].c;D.tm[c]=(D.tm[c]||0)+Math.min((Date.now()-t0)/1000,600);t0=Date.now();save()}
+function go(i){if($('#cv'))leave();D.cur=Math.max(0,Math.min(Q.length-1,i));save();showQ();scrollTo(0,0)}
+function intro(){$('#app').innerHTML=`<main><div class="card"><h1>Starting Point Test: Part 2</h1><p><b>This is a second, separate test. Do not redo Part 1.</b> It covers topics Part 1 did not reach. Ticking “Not learned yet” is completely fine for anything you were away for. Every question has a working-out space, but using it is optional.</p><p>Maths and physics, from the basics up to Specialist-level topics. <b>This is not a pass-or-fail test.</b> It is a map that shows where to start the course, so it teaches what is needed and skips what is already known.</p>
+<ul><li><b>Draw or write your working</b> on the canvas under each question (finger, stylus or mouse). Type your final answer in the box.</li>
+<li><b>No notes, no phone, no looking things up.</b> A calculator is allowed only in section F.</li>
+<li><b>If you have not learned something yet, tick “I haven’t learned this yet” and move on.</b> That is useful information, not a failure.</li>
+<li>Do it in <b>three sittings</b> (about 45 + 60 + 30 minutes). It saves automatically in this browser, so you can close it and come back.</li>
+<li>If you are stuck on several questions in a row, jump ahead to the next section with ☰ Questions.</li></ul>
+<p><label>Name: <input type="text" id="nm" value="${esc(D.name)}" placeholder="First name"></label></p>
+<button class="pri" id="go">${D.started?'Continue where I left off':'Start the test'}</button> <button id="imp">Import a backup file</button><input type="file" id="imf" accept=".json" hidden></div></main>`;
+$('#go').onclick=()=>{D.name=$('#nm').value.trim();D.started=1;save();t0=Date.now();showQ()};$('#imp').onclick=()=>$('#imf').click();
+$('#imf').onchange=e=>{const f=e.target.files[0];f&&f.text().then(t=>{try{Object.assign(D,JSON.parse(t));save();location.reload()}catch(x){alert('That is not a valid backup file.')}})}}
+function showQ(){const q=Q[D.cur],c=q.c;t0=Date.now();
+$('#app').innerHTML=`<header><b>Section ${q.s.c} · ${esc(q.s.n)}</b><span>Question ${D.cur+1} of ${Q.length}</span><button id="pk">☰ Questions</button></header><main>
+${SIT[c]?`<div class="ban">${SIT[c]}</div>`:''}<div class="meta">${esc(q.s.m)}</div>
+<div class="card"><div class="qt"><b>${c}</b> <small>[${q.m} mark${q.m>1?'s':''}]</small><br>${esc(q.t)}</div></div>
+<div class="tools"><b>Working:</b>
+<button class="sw" data-c="#111827" style="background:#111827"></button><button class="sw" data-c="#2563eb" style="background:#2563eb"></button><button class="sw" data-c="#dc2626" style="background:#dc2626"></button>
+<select id="sz"><option value="2">Thin</option><option value="3">Medium</option><option value="6">Thick</option></select>
+<button id="er">Eraser</button><button id="un">↶ Undo</button><button id="cl">Clear</button><button id="gr">Grid</button><button id="pn">Pen only</button><button id="mo">+ More space</button></div>
+<canvas id="cv" width="900" height="${H(c)}"></canvas>
+<div class="ans"><label><b>Final answer:</b> <input type="text" id="ai" value="${esc(D.a[c]||'')}" placeholder="Type your answer here" autocomplete="off"></label>
+<label><input type="checkbox" id="nl" ${D.nl[c]?'checked':''}> I haven’t learned this yet</label></div>
+<details style="margin:8px 0 4px"><summary>✍️ Type your key steps (optional: lets the AI check your method)</summary><textarea id="ks" rows="3" placeholder="e.g. 3x = 25 − 7, so x = 18 ÷ 3 = 6">${esc(D.ks[c]||'')}</textarea></details>
+<div class="nav"><button id="pv" ${D.cur?'':'disabled'}>← Back</button>${D.cur<Q.length-1?'<button class="pri" id="nx">Next →</button>':'<button class="pri" id="fin">Finish and get my results</button>'}</div></main><dialog id="pkd"></dialog>`;
+setup()}
+function setup(){const cv=$('#cv'),c=Q[D.cur].c,x=cv.getContext('2d');cv.classList.toggle('grid',grid);
+const sync=()=>{document.querySelectorAll('.sw').forEach(b=>b.classList.toggle('on',b.dataset.c===col&&!er));$('#er').classList.toggle('on',!!er);$('#gr').classList.toggle('on',!!grid);$('#pn').classList.toggle('on',!!pen);$('#sz').value=size};sync();
+const draw=()=>{x.clearRect(0,0,cv.width,cv.height);(D.st[c]||[]).forEach(s=>stroke(x,s))};draw();
+const pt=e=>{const r=cv.getBoundingClientRect();return[Math.round((e.clientX-r.left)*cv.width/r.width),Math.round((e.clientY-r.top)*cv.height/r.height)]};
+cv.onpointerdown=e=>{if(pen&&e.pointerType==='touch')return;e.preventDefault();cv.setPointerCapture(e.pointerId);const p=pt(e);cur={c:col,w:er?size*5:size,e:er,p:[...p]};last=p;stroke(x,{...cur,p:[p[0],p[1]]})};
+cv.onpointermove=e=>{if(!cur)return;e.preventDefault();const p=pt(e);cur.p.push(p[0],p[1]);stroke(x,{...cur,p:[last[0],last[1],p[0],p[1]]});last=p};
+const end=()=>{if(!cur)return;(D.st[c]=D.st[c]||[]).push(cur);cur=null;save()};cv.onpointerup=end;cv.onpointercancel=end;cv.onpointerleave=end;
+document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>{col=b.dataset.c;er=0;sync()});
+$('#sz').onchange=e=>{size=+e.target.value};$('#er').onclick=()=>{er=er?0:1;sync()};$('#gr').onclick=()=>{grid=grid?0:1;cv.classList.toggle('grid',grid);sync()};$('#pn').onclick=()=>{pen=pen?0:1;sync()};
+$('#un').onclick=()=>{(D.st[c]||[]).pop();draw();save()};$('#cl').onclick=()=>{if(confirm('Clear all working for this question?')){D.st[c]=[];draw();save()}};
+$('#mo').onclick=()=>{D.hh[c]=Math.min(H(c)+240,1320);save();showQ()};
+$('#ai').oninput=e=>{D.a[c]=e.target.value;save()};$('#ks').oninput=e=>{D.ks[c]=e.target.value;save()};$('#nl').onchange=e=>{D.nl[c]=e.target.checked;save()};
+$('#pv').onclick=()=>go(D.cur-1);$('#nx')&&($('#nx').onclick=()=>go(D.cur+1));$('#fin')&&($('#fin').onclick=()=>{leave();end_()});
+$('#pk').onclick=()=>{$('#pkd').innerHTML='<h3>Jump to a question</h3><small>Green = answered or drawn · Orange = not learned yet</small>'+SEC.map(s=>`<h4>${s.c}. ${esc(s.n)}</h4><div class="pg">${s.q.map(([k])=>`<button data-i="${Q.findIndex(z=>z.c===k)}" class="${D.nl[k]?'n':(D.a[k]||(D.st[k]||[]).length)?'d':''}">${k}</button>`).join('')}</div>`).join('')+'<p><button id="pe">Finish and get my results</button> <button id="pc">Close</button></p>';
+$('#pkd').showModal();$('#pkd').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.i!=null){$('#pkd').close();go(+b.dataset.i)}else if(b.id==='pc')$('#pkd').close();else if(b.id==='pe'){$('#pkd').close();leave();end_()}}}}
+function stroke(x,s){x.globalCompositeOperation=s.e?'destination-out':'source-over';x.strokeStyle=s.c;x.lineWidth=s.w;x.lineCap=x.lineJoin='round';x.beginPath();const p=s.p;x.moveTo(p[0],p[1]);if(p.length<=2)x.lineTo(p[0]+.1,p[1]);for(let i=2;i<p.length;i+=2)x.lineTo(p[i],p[i+1]);x.stroke();x.globalCompositeOperation='source-over'}
+function results(){let s='STARTING POINT TEST RESULTS\nName: '+(D.name||'(not given)')+'\n';
+SEC.forEach(sec=>{s+='\nSection '+sec.c+': '+sec.n+'\n';sec.q.forEach(([c])=>{const a=(D.a[c]||'').trim(),dr=(D.st[c]||[]).length;s+=c+': '+(D.nl[c]?'[NOT LEARNED YET] ':'')+(a?'answer: '+a:'(no typed answer)')+((D.ks[c]||'').trim()?' · steps: '+D.ks[c].trim().replace(/\n/g,' / '):'')+(dr?' · working drawn':'')+' · '+Math.round(D.tm[c]||0)+'s\n'})});
+s+='\nConfidence (1-5): '+SEC.map(x=>x.c+'='+(D.conf[x.c]||'?')).join('  ')+'\nHardest topics at school: '+(D.hard||'(not given)')+'\nWhat helps him learn: '+(D.help||'(not given)')+'\n';return s}
+function wrap(x,t,w){const out=[];let l='';t.split(' ').forEach(wd=>{const n=l?l+' '+wd:wd;if(x.measureText(n).width>w&&l){out.push(l);l=wd}else l=n});out.push(l);return out}
+function replay(c){const o=document.createElement('canvas');o.width=900;o.height=H(c);const x=o.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,900,o.height);const t=document.createElement('canvas');t.width=900;t.height=o.height;const y=t.getContext('2d');(D.st[c]||[]).forEach(s=>stroke(y,s));x.drawImage(t,0,0);return o}
+function dlSection(sec){const W=900,parts=sec.q.map(([c,m,t])=>({c,t,h:H(c)}));const mc=document.createElement('canvas').getContext('2d');mc.font='20px sans-serif';
+const hs=parts.map(p=>34+wrap(mc,p.c+'  '+p.t,860).length*28+34+p.h+16),tot=hs.reduce((a,b)=>a+b,0)+10;const cv=document.createElement('canvas');cv.width=W;cv.height=tot;const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,tot);let y=10;
+parts.forEach((p,i)=>{x.fillStyle='#111827';x.font='bold 20px sans-serif';const ls=wrap(x,p.c+'  '+p.t,860);y+=24;ls.forEach(l=>{x.fillText(l,20,y);y+=28});x.font='18px sans-serif';x.fillStyle='#2563eb';x.fillText((D.nl[p.c]?'[NOT LEARNED YET] ':'')+'Answer: '+(D.a[p.c]||''),20,y+10);y+=24;x.drawImage(replay(p.c),0,y);x.strokeStyle='#d1d5db';x.strokeRect(0,y,900,p.h);y+=p.h+16});
+cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='Test_Section_'+sec.c+'_working.png';a.click()})}
+
+function inkInfo(c){const A=D.st[c]||[],ink=A.filter(s=>!s.e),er=A.length-ink.length;let y0=1e9,y1=-1e9;ink.forEach(s=>{for(let i=1;i<s.p.length;i+=2){y0=Math.min(y0,s.p[i]);y1=Math.max(y1,s.p[i])}});return ink.length?ink.length+' strokes, '+er+' erasures, writing covers '+Math.round((y1-y0)/H(c)*100)+'% of the working height':'no working drawn'}
+const TOTALM=Q.reduce((a,q)=>a+q.m,0),SM=s=>s.q.reduce((a,x)=>a+x[1],0);
+function parseJ(t){const a=t.indexOf('{');if(a<0)throw new Error('no JSON');let x=t.slice(a);const b=x.lastIndexOf('}');if(b>=0){try{return JSON.parse(x.slice(0,b+1))}catch(e){}}
+ const qs=[...x.matchAll(/\{\s*"code"[^{}]*\}/g)].map(m=>{try{return JSON.parse(m[0])}catch(e){return null}}).filter(Boolean);if(!qs.length)throw new Error('unreadable reply');return{questions:qs,summary:''}}
+async function callAI(key,model,sys,user){let err;for(let k=0;k<3;k++){try{const r=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+key,'X-Title':'Starting Point Test'},body:JSON.stringify({model,temperature:0,max_tokens:1500,messages:[{role:'system',content:sys},{role:'user',content:user}]})});const d=await r.json();if(!d.choices)throw new Error(d.error?.message||r.status);return parseJ(d.choices[0].message.content)}catch(e){err=e;await new Promise(f=>setTimeout(f,1500*(k+1)))}}throw err}
+async function aiSection(sec,key,model){
+ const sys='You mark a diagnostic maths and physics test fairly and carefully. For each question work out the correct answer yourself, then judge the typed answer (accept equivalent forms) and any typed key steps. You CANNOT see handwriting: never guess what handwritten working says; use only the typed answer, typed steps, the not-learned flag and the ink statistics. If the typed answer is blank and he flagged not learned, verdict is notlearned; if blank and not flagged, verdict is blank. Reply with ONLY compact JSON, no other text: {"questions":[{"code":"A1","verdict":"correct|partial|incorrect|blank|notlearned","marks":0,"note":"max 15 words"}],"summary":"1-2 sentences"}';
+ const item=([c,m,t])=>c+' ['+m+' mark'+(m>1?'s':'')+'] '+t+'\n  typed answer: '+((D.a[c]||'').trim()||'(none)')+'\n  typed key steps: '+((D.ks[c]||'').trim()||'(none)')+'\n  flagged not learned: '+(D.nl[c]?'YES':'no')+'\n  handwritten working: '+inkInfo(c)+'; time '+Math.round(D.tm[c]||0)+'s';
+ const out={questions:[],summary:''};
+ for(let i=0;i<sec.q.length;i+=4){const part=sec.q.slice(i,i+4);const r=await callAI(key,model,sys,'Section '+sec.c+': '+sec.n+'\n\n'+part.map(item).join('\n\n'));out.questions.push(...(r.questions||[]));if(r.summary)out.summary+=(out.summary?' ':'')+r.summary}
+ return out}
+async function analyse(){const key=(localStorage.getItem('mpc_key')||'').trim()||($('#ky')?$('#ky').value.trim():'');if(!key){$('#anp').textContent='Paste an OpenRouter key above first (or open the course once and set it in ⚙ Settings).';return}
+ localStorage.setItem('mpc_key',key);const model=localStorage.getItem('mpc_model')||'anthropic/claude-sonnet-4.5',res={};$('#anb').disabled=true;
+ for(const sec of SEC){$('#anp').textContent='Analysing section '+sec.c+' of '+SEC.length+'…';try{res[sec.c]=await aiSection(sec,key,model)}catch(e){res[sec.c]={error:String(e.message||e)}}}
+ D.an={res,when:new Date().toLocaleString()};save();$('#anb').disabled=false;$('#anp').textContent='Done.';showAn()}
+function anText(){if(!D.an)return'';const R_=D.an.res;let tot=0,out='AI ANALYSIS of the Starting Point Test (typed answers and typed steps only; handwriting was not read)\nStudent: '+(D.name||'(not given)')+'\n';const pct={};
+ SEC.forEach(sec=>{const r=R_[sec.c];if(!r||r.error){out+='\nSection '+sec.c+': analysis failed ('+(r&&r.error)+')\n';return}let m=0;(r.questions||[]).forEach(q=>{const mx=(sec.q.find(z=>z[0]===q.code)||[0,0])[1];m+=Math.max(0,Math.min(mx,+q.marks||0))});tot+=m;pct[sec.c]=Math.round(m/SM(sec)*100);
+  out+='\nSection '+sec.c+' · '+sec.n+': '+m+'/'+SM(sec)+' ('+pct[sec.c]+'%)\n'+(r.summary||'')+'\n';(r.questions||[]).filter(q=>q.verdict!=='correct').forEach(q=>{out+='  '+q.code+' ['+q.verdict+'] '+(q.note||'')+'\n'})});
+ const nl=Q.filter(q=>D.nl[q.c]).map(q=>q.c);out+='\nOverall: '+tot+'/'+TOTALM+' ('+Math.round(tot/TOTALM*100)+'%)\nNot learned yet: '+(nl.join(', ')||'none')+'\n';
+ const strong=SEC.filter(s=>pct[s.c]>=80).map(s=>s.c),weak=SEC.filter(s=>pct[s.c]<60).map(s=>s.c);
+ out+='Strong sections (80%+): '+(strong.join(', ')||'none')+'\nSections needing work (under 60%): '+(weak.join(', ')||'none')+'\nSuggested starting point: ';
+ const sug=SEC.filter(x=>pct[x.c]<60).map(x=>'build up section '+x.c+' ('+x.n+')');out+=(sug.join('; ')||'the student looks ready for the main path: skim the strong sections.')+'\n\nSELF-REPORT\nConfidence (1-5): '+SEC.map(x=>x.c+'='+(D.conf[x.c]||'?')).join('  ')+'\nHardest at school: '+(D.hard||'(not given)')+'\nWhat helps him learn: '+(D.help||'(not given)')+'\n';return out}
+function showAn(){$('#ano').value=anText()}
+function end_(){const done=Q.filter(q=>D.a[q.c]||(D.st[q.c]||[]).length).length,nl=Q.filter(q=>D.nl[q.c]).length;
+$('#app').innerHTML=`<main><div class="card"><h2>Finished 🎉</h2><p>Questions with an answer or working: <b>${done}</b> of ${Q.length} · marked “not learned yet”: <b>${nl}</b>.</p>
+<h3>Two quick things</h3><table>${SEC.map(s=>`<tr><td>${s.c}. ${esc(s.n)}</td><td>Confidence: <select data-s="${s.c}"><option value="">?</option>${[1,2,3,4,5].map(n=>`<option ${D.conf[s.c]==n?'selected':''}>${n}</option>`).join('')}</select> <small>1 = not confident, 5 = very</small></td></tr>`).join('')}</table>
+<p>Which topics have felt hardest at school?<br><textarea id="hd" rows="2">${esc(D.hard)}</textarea></p><p>What helps you most when something does not make sense (pictures, worked examples, small steps, someone explaining)?<br><textarea id="hp" rows="2">${esc(D.help)}</textarea></p></div>
+<div class="card"><h3>🤖 AI analysis (free text-only model is fine)</h3><p>The AI marks his <b>typed answers and typed key steps</b> and writes a summary he can paste into the chat with Claude. A text-only AI cannot read handwriting, so the handwritten working is summarised only as ink statistics. For the handwriting review, use the download buttons below and upload the pictures to Claude, who can read them.</p>
+<p><input type="text" id="ky" placeholder="OpenRouter key (only if not already saved from the course)" style="width:min(420px,100%)"> <button class="pri" id="anb">Analyse my results</button> <small id="anp"></small></p><textarea id="ano" rows="12" placeholder="The analysis will appear here. Copy it and paste it to Claude."></textarea><p><button id="anc">📋 Copy the analysis</button></p></div>
+<div class="card"><h3>Next: open the course</h3><p>Once you have finished, open the course. It can read this test and build a personal plan for you. Press <b>Make my plan</b> there.</p><a href="index.html"><button class="pri">➡️ Go to the course</button></a></div>
+<div class="card"><h3>Send the results</h3><ol><li><button class="pri" id="cp">📋 Copy my results</button> then paste them into the chat with Claude.</li><li>Download my working as pictures (one per section) and upload them to the same chat so the method can be checked:<br>${SEC.map(s=>`<button data-d="${s.c}">⬇ Section ${s.c}</button>`).join(' ')}</li><li><button id="bk">💾 Download a backup file</button> (to keep a copy or continue on another device).</li></ol>
+<textarea id="rs" rows="10" readonly></textarea></div><p><button id="bq">← Back to the questions</button></p></main>`;
+document.querySelectorAll('select[data-s]').forEach(s=>s.onchange=()=>{D.conf[s.dataset.s]=s.value;save();$('#rs').value=results()});$('#hd').oninput=e=>{D.hard=e.target.value;save();$('#rs').value=results()};$('#hp').oninput=e=>{D.help=e.target.value;save();$('#rs').value=results()};$('#rs').value=results();
+$('#cp').onclick=async()=>{const t=results();try{await navigator.clipboard.writeText(t);$('#cp').textContent='✅ Copied'}catch(e){$('#rs').select();document.execCommand('copy');$('#cp').textContent='✅ Copied (or select the text below)'}};
+$('#anb').onclick=analyse;$('#anc').onclick=async()=>{try{await navigator.clipboard.writeText($('#ano').value)}catch(e){$('#ano').select();document.execCommand('copy')}$('#anc').textContent='✅ Copied'};if(D.an)showAn();
+document.querySelectorAll('button[data-d]').forEach(b=>b.onclick=()=>dlSection(SEC.find(s=>s.c===b.dataset.d)));
+$('#bk').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(D)],{type:'application/json'}));a.download='starting-point-test-backup.json';a.click()};$('#bq').onclick=()=>{t0=Date.now();showQ()}}
+D.started?showQ():intro();
+</script></body></html>
