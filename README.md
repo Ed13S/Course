@@ -20,7 +20,7 @@ A personal plan file (for example `eddie-plan.json`) is **not** part of this fol
 
 1. Create a GitHub repository and upload the contents of this folder (so `index.html` is at the top level).
 2. In the repository go to **Settings → Pages**, choose the main branch and the root folder, and save.
-3. After a minute the course is live at `https://<your-username>.github.io/<repo-name>/`.
+3. After a minute the course is live at `https://ed13s.github.io/Course/`.
 4. To update later, upload the new files over the old ones. Keep the **same address** so saved progress carries over.
 
 Do not put a student's name, results or API key in the repository. It is public.
@@ -69,15 +69,15 @@ A plan turns the generic course into one for a specific student. It adds a badge
 1. The student sits Part 1 and Part 2 (and says if anything was skipped, guessed, or helped).
 2. Copy the results text from each test.
 3. Download the working images from each test.
-4. Open a chat with Claude, attach the images, paste the results text, and say something like:
+4. Open a chat with a AI of your choice, attach the images, paste the results text, and say something like:
 
    > Here are my son's starting-point test results and working. Please mark them, then make a personal plan file for the Monash Prep Course.
 
-   Also tell Claude anything the test cannot show: topics he was absent for, guesses, help received, grades, what helps him learn.
-5. Claude marks the work, then produces a file such as `student-plan.json`.
+   Also tell your chosen AI anything the test cannot show: topics he was absent for, guesses, help received, grades, what helps him learn.
+5. The AI marks the work, then produces a file such as `student-plan.json`.
 6. Import it: open the course, **Settings → Import plan file**, and choose the file.
 
-If you do not have Claude's help, you can still use the course as is. It also has a built-in starting quiz, which marks each lesson as likely known (green) or needing focus (red).
+If you do not have access to AI for whatever reason, you can still use the course as is. It also has a built-in starting quiz, which marks each lesson as likely known (green) or needing focus (red).
 
 ### What is in a plan file
 
