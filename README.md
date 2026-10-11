@@ -2,7 +2,7 @@
 
 A free, self-paced course that gets a VCE student ready for first-year engineering or computer science at Monash. It runs in the browser, saves progress, and has an optional AI tutor. There is no server and no account.
 
-**It covers:** maths from Methods 1/2 up to the Specialist bridging topics, physics from Units 1/2 up to 3&4, and first-year previews (circuits, statics, Python, discrete maths, matrices, signals). About 38 lessons, roughly a 29-hour course.
+**It covers:** maths from Methods 1/2 up to the Specialist bridging topics, physics from Units 1/2 up to 3&4, and first-year previews (circuits, statics, Python, discrete maths, matrices, signals). About 40 lessons, roughly a 30-hour course.
 
 ## Quick start
 
@@ -58,8 +58,9 @@ Do not put a student's name, results or API key in the repository. It is public.
 
 - **Lessons** are in the left column, grouped into modules. Each lesson is a series of steps, simple first and then deeper: Level 1 foundation, Level 2 core, Level 3 stretch (more than you need). Common mistakes appear inside the steps.
 - **Quick checks** in each step reveal an answer when clicked.
-- **Working space:** every step and quiz question has an optional drawing box. It is scratch only. It is not marked or saved.
+- **Working space:** every step and quiz question has an optional drawing box with a pen, an eraser, four colours, three line thicknesses, undo, clear, a grid, **＋ More space** (adds more room, up to six times) and **Pen only** (so a finger can scroll the page while a stylus draws). It is scratch only. It is not marked or saved, and it clears when you leave the lesson.
 - **Quizzes** end each lesson, and scores show as percentages. A **module test** follows each module, and a **final exam** covers everything.
+- **⚡ Today's practice** (button in the left column) is a daily 8–10 question mix. It starts with questions he got wrong earlier, then topics due for review 3, 7, 14 and 30 days after he passed them, then a few from lessons already done. A correct answer removes a mistake from his list and moves that topic to its next review, so what he learns is revisited before it fades. Lessons he had already finished before this feature existed start their review clock on the day it first loads.
 - **Mistakes tab:** common errors. **Formulas tab:** a formula sheet.
 - **Progress report** shows everything the AI tutor knows about the student.
 - **Starting quiz:** a built-in 30-minute quiz that marks each lesson green (likely known) or red (focus here). Use it if no plan has been made.
@@ -75,6 +76,19 @@ The tutor uses OpenRouter, which has free models.
 4. Buttons: **Explain this more simply**, **Give me a hint**, **Give me an example question**, **Clear chat**.
 
 The key is stored only in that browser and sent only to openrouter.ai. When the student chats, the lesson context, results and any notes in Settings are sent to OpenRouter with the question, so leave out anything private.
+
+### Lessons written for the student by the tutor
+
+The course can rewrite and extend itself for one student. It needs the OpenRouter key.
+
+- **✨ Rewrite this lesson for me** (top of every lesson): the tutor rewrites the lesson in his terms, using his plan, strengths, links to what he knows and the mistakes he has made on that topic. It keeps the same topic and the same standard. It also adds quiz questions aimed at his mistakes. **↩ Show original** switches back at any time.
+- **✨ Build me a lesson** (left column and home page): the tutor writes a brand-new lesson with its own quiz from his biggest gap, or on any topic you type. It appears under **✨ My lessons**.
+- **Auto-personalise** (Settings): when switched on, lessons from his plan (🎯 focus, 📌 core, 🆕 new) are rewritten automatically the first time he opens them. This uses credits and takes about a minute per lesson, so it is off by default.
+- Everything is saved in the browser and included in **Export progress**.
+
+AI-written lessons can contain mistakes. The original lessons are checked, so the tutor's versions are best treated as a second explanation. If something looks wrong, ask the tutor or a teacher, and use **Show original**.
+
+**Layout.** The **🏠 Today** page shows the next lesson, today's practice, where he left off, and the roadmap. On a phone the course is one column and the tutor opens from the **🤖 Tutor** button.
 
 ## 3. Starting-point tests
 
@@ -187,7 +201,9 @@ Use these short codes in plan files.
 | `tr` | Circular functions: sin, cos, tan and the unit circle |
 | `chain` | Derivatives and the chain rule |
 | `tc` | Calculus with sin, cos, tan and e |
+| `tc2` | Trig and e calculus II: more rules, optimising and waves |
 | `int` | Integration as area |
+| `ad` | Antidifferentiation toolkit: undo every rule |
 | `prob` | Probability and the normal curve |
 
 **Module 2 · Specialist-style maths**
@@ -273,6 +289,6 @@ Use these short codes in plan files.
 
 **What if he was away for a lot of the content?** Say so in the notes box (or in the prompt) when you ask for the plan. Blank answers and "Not learned yet" ticks are then treated as new content, not low ability.
 
-**Dark mode.** The course follows the device setting. The tests always stay light.
+**Themes.** The course opens in a dark theme. The **🌓** button in the top bar cycles Dark, Black (the darkest, good for OLED screens) and Light, and remembers the choice. The drawing boxes follow the theme, with light ink on dark. The tests always stay light.
 
 **Can I change the content?** Lessons and quizzes are in `course.js`. Keep a backup of the original before editing.

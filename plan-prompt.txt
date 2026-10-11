@@ -45,6 +45,8 @@ sp4: Specialist: polynomials and rational functions
 sp5: Specialist: complex numbers II (polar, roots, the plane)
 sp6: Specialist: mechanics, kinematics and vectors
 cl: Error clinic: slips that cost marks
+ad: Antidifferentiation toolkit: undo every rule
+tc2: Trig and e calculus II: more rules, optimising and waves
 
 THINGS THE TESTS CANNOT SHOW (fill in): topics he was absent for / which answers were guesses or helped / school subjects and grades / what helps him learn:
 
