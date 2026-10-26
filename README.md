@@ -292,3 +292,6 @@ Use these short codes in plan files.
 **Themes.** The course opens in a dark theme. The **🌓** button in the top bar cycles Dark, Black (the darkest, good for OLED screens) and Light, and remembers the choice. The drawing boxes follow the theme, with light ink on dark. The tests always stay light.
 
 **Can I change the content?** Lessons and quizzes are in `course.js`. Keep a backup of the original before editing.
+
+## Teach-before-test
+Every lesson now opens with a "Words and ideas you need first" step and ends with worked-example steps that cover each quiz question style. If a quiz question still assumes something you have not learned, press **🆘 I don't know this yet: teach me** under it and the AI tutor teaches it from zero.
