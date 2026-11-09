@@ -295,3 +295,6 @@ Use these short codes in plan files.
 
 ## Teach-before-test
 Every lesson now opens with a "Words and ideas you need first" step and ends with worked-example steps that cover each quiz question style. If a quiz question still assumes something you have not learned, press **🆘 I don't know this yet: teach me** under it and the AI tutor teaches it from zero.
+
+## Already did the tests? Upload the results
+Open **Make my plan with the AI tutor** and use **📎 Upload test results**. Pick the `starting-point-test-backup.json` file from each test (or any .txt/.csv/.md of results). The tutor marks them, builds the plan, and the plan then reshapes the course: lesson badges and order, rewritten lessons, and how the tutor teaches. Upload new results any time to re-plan.

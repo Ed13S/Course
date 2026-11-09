@@ -122,6 +122,7 @@ header,dialog{background:var(--card);color:var(--fg)}
 <dialog id="pdlg"><h3>🤖 Make my plan with the AI tutor</h3>
 <p>The tutor reads the starting-point tests done in this browser and builds a personal plan: a badge for every lesson, an order, a roadmap and notes. It needs your OpenRouter key in Settings. A free model cannot see handwriting, so it uses typed answers, "Not learned yet" ticks and timings.</p>
 <label>Anything else it should know (topics he missed, grades, what helps him learn)<textarea id="pnote" rows="3" style="width:100%;font:inherit"></textarea></label>
+<label>📎 Upload test results he already did (the <code>starting-point-test-backup.json</code> from each test, or any .txt/.csv/.md of results; you can pick several)<input type="file" id="pup" accept=".json,.txt,.csv,.md,application/json,text/*" multiple></label><div id="pupl" style="font-size:13px;margin:4px 0"></div>
 <label>Or paste test results here (if the tests were done on another device)<textarea id="ptxt" rows="4" style="width:100%;font:inherit"></textarea></label>
 <div id="pst" style="margin:8px 0;font-size:14px"></div>
 <button class="pri" id="pgo2">Make my plan</button> <button id="pcl">Close</button>
@@ -205,9 +206,14 @@ $('#nav').addEventListener('click',e=>{const ch=e.target.closest('.chev');if(ch)
  if(!b)return;L=b.dataset.t!=null?exam(+b.dataset.t):b.dataset.i==='final'?exam():COURSE[+b.dataset.i];picks=[];lesson()});
 function placement(){const qs=COURSE.map(c=>{const q=sh(c.qs)[0];return{...q,o:[...q.o,"I haven't learned this yet"],from:c.t,lid:c.id}});return{id:'place',test:1,mi:-2,t:'🎯 Starting quiz',steps:[[1,'One question from every lesson, from the very basics up to Specialist maths and physics. <b>Choose the last option when you have not learned something yet</b>: that is useful information, not a failure. It takes about '+Math.round(qs.length*0.8)+' minutes. The results mark each lesson 🟢 (likely known) or 🔴 (focus here), shape the plan, and tell the AI tutor where to begin.']],qs}}
 
-async function gatherTests(){let out='';for(const[k,f]of[['mpt1','test.html'],['mpt2','test2.html']]){let D;try{D=JSON.parse(localStorage.getItem(k)||'null')}catch(e){D=null}
- if(!D||!(Object.keys(D.a||{}).length||Object.keys(D.nl||{}).length))continue;let SEC=null;try{const t=await (await fetch(f)).text(),m=t.match(/const SEC=(\[[\s\S]*?\]);\s*const Q=/);SEC=new Function('return '+m[1])()}catch(e){}
- out+='\n=== '+f+' (student: '+(D.name||'?')+') ===\n';
+let UPS=[];const SECC={};
+async function getSEC(f){if(f in SECC)return SECC[f];try{const t=await (await fetch(f)).text(),m=t.match(/const SEC=(\[[\s\S]*?\]);\s*const Q=/);SECC[f]=new Function('return '+m[1])()}catch(e){SECC[f]=null}return SECC[f]}
+async function gatherTests(ups){const src=[];for(const[k,f]of[['mpt1','test.html'],['mpt2','test2.html']]){let D;try{D=JSON.parse(localStorage.getItem(k)||'null')}catch(e){D=null}if(D)src.push([D,f])}
+ for(const D of ups||[])src.push([D,null]);let out='';
+ for(let[D,f]of src){if(!D||!(Object.keys(D.a||{}).length||Object.keys(D.nl||{}).length))continue;
+ if(!f){const ks=Object.keys({...(D.a||{}),...(D.nl||{})});let best=0;for(const g of['test.html','test2.html']){const S2=await getSEC(g);if(!S2)continue;const codes=new Set(S2.flatMap(x=>x.q.map(y=>y[0]))),n=ks.filter(k=>codes.has(k)).length;if(n>best){best=n;f=g}}}
+ const SEC=f?await getSEC(f):null;
+ out+='\n=== '+(f||'uploaded test')+' (student: '+(D.name||'?')+') ===\n';
  if(SEC)SEC.forEach(sec=>{out+='\nSection '+sec.c+': '+sec.n+'\n';sec.q.forEach(([c,m,t])=>{out+=c+' ['+m+'] '+t+' | answer: '+(((D.a||{})[c]||'').trim()||'(none)')+((D.nl||{})[c]?' | NOT LEARNED YET':'')+(((D.ks||{})[c]||'').trim()?' | steps: '+D.ks[c].trim():'')+' | '+Math.round((D.tm||{})[c]||0)+'s'+(((D.st||{})[c]||[]).length?' | working drawn (not readable by you)':'')+'\n'})});
  else out+=Object.entries(D.a||{}).map(([c,a])=>c+': '+a).join('\n')+'\nNot learned: '+Object.keys(D.nl||{}).filter(c=>D.nl[c]).join(', ')+'\n';
  out+='Confidence 1-5: '+JSON.stringify(D.conf||{})+'\nHardest at school: '+(D.hard||'')+'\nWhat helps: '+(D.help||'')+'\n'}return out}
@@ -218,7 +224,7 @@ function parsePlan(t){const a=t.indexOf('{'),b=t.lastIndexOf('}');if(a<0||b<a)th
  let order=(j.order||[]).filter(x=>ids.has(x));COURSE.forEach(c=>{if(!order.includes(c.id))order.push(c.id)});
  return{name:String(j.name||(S.profile||{}).name||''),summary:String(j.summary||''),daily:String(j.daily||''),tests:String(j.tests||''),tutor:String(j.tutor||''),order,status:st,why:f(j.why),bridge:f(j.bridge),phases:(j.phases||[]).map(p=>({name:String(p.name||''),ids:(p.ids||[]).filter(x=>ids.has(x)),note:String(p.note||'')}))}}
 async function makePlan(){const key=localStorage.getItem('mpc_key');const st=$('#pst');if(!key){st.textContent='Add your OpenRouter key in Settings first.';return}
- $('#pgo2').disabled=true;st.textContent='Reading the tests…';let res=($('#ptxt').value.trim())?'\n=== pasted results ===\n'+$('#ptxt').value.trim():await gatherTests();
+ $('#pgo2').disabled=true;st.textContent='Reading the tests…';const pt=$('#ptxt').value.trim();let res=(pt||UPS.length)?(UPS.length?await gatherTests(UPS):'')+(pt?'\n=== pasted results ===\n'+pt:''):await gatherTests();
  if(!res){st.textContent='No test results found in this browser. Do the tests here first, or paste the results above.';$('#pgo2').disabled=false;return}
  const user='TEST RESULTS:\n'+res+'\n\nNOTES FROM PARENT: '+($('#pnote').value.trim()||'(none)')+'\n\nCOURSE PROGRESS SO FAR:\n'+student();let err;
  for(let k=0;k<3;k++){try{st.textContent='The tutor is marking and planning… (about a minute)'+(k?' retry '+k:'');const r=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+key,'X-Title':'Monash Prep Course'},body:JSON.stringify({model:localStorage.getItem('mpc_model')||'anthropic/claude-sonnet-4.5',temperature:0.2,max_tokens:4500,messages:[{role:'system',content:PLAN_SYS()},{role:'user',content:user}]})});const d=await r.json();if(!d.choices)throw new Error(d.error&&d.error.message||r.status);S.plan=parsePlan(d.choices[0].message.content);save();nav();st.textContent='✅ Plan made and loaded. Close this window to see it.';$('#pgo2').disabled=false;return}catch(e){err=e;await new Promise(f=>setTimeout(f,1500))}}
@@ -261,6 +267,7 @@ async function send(){const m=$('#in').value.trim();if(!m||BUSY)return;const key
 $('#clr').onclick=()=>{if(confirm('Clear the whole AI tutor chat? Your lesson progress is not affected.')){S.chat=[];save();chat()}};
 $('#plan').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.id==='pq'){L=placement();picks=[];lesson();scrollTo(0,0)}if(b.id==='pgo')report()};
 $('#go').onclick=send;$('#in').onkeydown=e=>{if(e.key==='Enter')send()};$('#chips').onclick=e=>{if(e.target.tagName==='BUTTON'){$('#in').value=CHIP[e.target.textContent]||e.target.textContent;send()}};
+$('#pup').onchange=async e=>{UPS=[];$('#ptxt').value='';const names=[];for(const f of e.target.files){const t=await f.text();try{const j=JSON.parse(t);if(j&&(j.a||j.nl)){UPS.push(j);names.push('✅ '+f.name+' (test answers)');continue}}catch(x){}$('#ptxt').value+=(($('#ptxt').value?'\n':'')+'--- '+f.name+' ---\n'+t);names.push('✅ '+f.name+' (pasted as text)')}$('#pupl').textContent=names.join(' · ')};
 $('#ipl').onclick=()=>$('#ip').click();$('#ip').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const j=JSON.parse(t);if(!j.status)throw 0;S.plan=j;save();nav();alert('Plan loaded.')}catch(x){alert('That is not a plan file.')}})};
 $('#set').onclick=()=>{$('#auto').checked=!!S.auto;const P0=S.profile||{};$('#pn').value=P0.name||'';$('#pg').value=P0.grades||'';$('#pnt').value=P0.notes||'';$('#key').value=localStorage.getItem('mpc_key')||'';$('#model').value=localStorage.getItem('mpc_model')||'';$('#dlg').showModal()};
 $('#sv').onclick=()=>{S.auto=$('#auto').checked;S.profile={name:$('#pn').value.trim(),grades:$('#pg').value.trim(),notes:$('#pnt').value.trim()};save();localStorage.setItem('mpc_key',$('#key').value.trim());localStorage.setItem('mpc_model',$('#model').value.trim());$('#dlg').close()};
