@@ -298,3 +298,14 @@ Every lesson now opens with a "Words and ideas you need first" step and ends wit
 
 ## Already did the tests? Upload the results
 Open **Make my plan with the AI tutor** and use **📎 Upload test results**. Pick the `starting-point-test-backup.json` file from each test (or any .txt/.csv/.md of results). The tutor marks them, builds the plan, and the plan then reshapes the course: lesson badges and order, rewritten lessons, and how the tutor teaches. Upload new results any time to re-plan.
+
+## Two ways to make a personal plan
+**A. Any AI chat (no key needed).** Do the tests, press *Download a backup file* at the end of each (optionally also download the working images). In the course press **Make my plan → Copy the plan prompt**, paste it into ChatGPT, Claude, Gemini or similar, attach the backup file(s) (and the images if the AI reads pictures), then paste the AI's reply into **Load my plan**.
+**B. Let the course do it (needs a free OpenRouter key in Settings).** Press **Make my plan**; upload the backup files if the tests were done on another device.
+Either way the plan sets lesson badges, order and roadmap and tells the tutor and rewrites to treat him as a complete beginner. **Without a key, every AI button is hidden**, so nothing looks broken; the rest of the course works fully.
+
+## Edited explanations: highlighted, with a choice
+When the tutor rewrites a lesson or a single step, the edited text is highlighted (amber bar and "✏️ edited for you"). Use **Version** (whole lesson) or **Explanation** (one step) to switch between the original and each edit. Any tutor reply has **📌 Use this as the explanation for my current step**.
+
+## Loading screen and auto-update
+While the AI is writing, a mini maths game and fun facts keep the student busy, and it closes when the work is done. For site updates, `tools/update.sh begin` shows everyone a "being updated" screen (it cannot be closed); `tools/update.sh end` pushes the new version and open pages reload by themselves. Progress is kept in the browser. (GitHub Pages can take a minute or two to publish.)
