@@ -309,6 +309,3 @@ When the tutor rewrites a lesson or a single step, the edited text is highlighte
 
 ## Loading screen and auto-update
 While the AI is writing, a mini maths game and fun facts keep the student busy, and it closes when the work is done. For site updates, `tools/update.sh begin` shows everyone a "being updated" screen (it cannot be closed); `tools/update.sh end` pushes the new version and open pages reload by themselves. Progress is kept in the browser. (GitHub Pages can take a minute or two to publish.)
-
-## Sound & Waves course (`waves/`)
-A second, separate course in the same style, for VCE Physics sound and waves: what a wave is, the five wave numbers, sound as a pressure wave, intensity and decibels, standing waves, strings and pipes, resonance, interference, diffraction, and sound as a signal (a Systems Engineering link). Open it at `.../waves/`. It has its own progress (saved under a separate key) but shares the AI tutor settings with the main course, because both live on the same site, so the OpenRouter key saved in the main course's Settings is picked up automatically. No key is stored in the repository. Lessons are in `waves/course.js`, `course2.js` and `course3.js`; diagrams are in `waves/img/`.
