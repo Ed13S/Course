@@ -354,7 +354,7 @@ function home(){const P=S.plan,nm=(P&&P.name)||(S.profile||{}).name||'',nx=nextU
  if(!hasKey())h+='<div class="card"><span class="tag">🤖 Optional</span><h3>Turn on the AI tutor</h3><p>Add a free OpenRouter key and the tutor can answer questions, explain steps differently and rewrite lessons for you. Everything else works without it.</p><button id="openset">Open settings</button></div>';
  h+='</div>';
  if(P&&P.phases&&P.phases.length)h+='<h3>🗺️ Roadmap</h3><div class="road">'+P.phases.map(ph=>{const cs=ph.ids.map(id=>COURSE.find(c=>c.id===id)).filter(Boolean),d=cs.filter(c=>S.done[c.id]).length;return `<div class="ph"><b>${esc(ph.name)}</b><div class="mbar"><div style="width:${cs.length?d/cs.length*100:0}%"></div></div><small>${d}/${cs.length} · ${esc(ph.note||'')}</small></div>`}).join('')+'</div>';
- h+='<h3>Tests</h3><p><a href="test.html">🧪 Starting-point test, Part 1</a> &nbsp; <a href="test2.html">🧪 Part 2</a></p>';
+ h+='<h3>Tests</h3><p><a href="test.html">🧪 Starting-point test, Part 1</a> &nbsp; <a href="test2.html">🧪 Part 2</a></p>';h+='<h3>More courses</h3><p><a href="waves/">🔊 Sound &amp; Waves: a step-by-step physics course (waves, loudness, standing waves, resonance, diffraction)</a></p>';
  $('#main').innerHTML=h;nav();scrollTo(0,0)}
 document.addEventListener('click',e=>{const t=e.target.closest('button');if(t){if(t.dataset.v!==undefined&&t.closest('.gb,.vb')&&!t.dataset.sv){const id=L.id,vs=(S.rwv||{})[id]||[];if(t.dataset.v==='o')S.uo[id]=1;else{const v=vs[+t.dataset.v];if(v){S.rw[id]=v;if(v.qs)S.aq[id]=v.qs}S.uo[id]=0}applyRw(L);save();picks=[];lesson();return}
  if(t.dataset.sv!==undefined){const e2=((S.se||{})[seKey()]||{})[+t.dataset.i];if(e2){e2.cur=+t.dataset.sv;save();picks=[];lesson()}return}
